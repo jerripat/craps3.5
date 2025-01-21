@@ -30,3 +30,33 @@ def insert_roll_data(game_id, die1, die2, score, is_match):
     finally:
         if conn:
             conn.close()  # Ensure the connection is closed
+
+def insert_into_payout(game_id, wager_amount,  payout_amount):
+    conn = sqlite3.connect('game_database.db')
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS payout (
+        game_id INTEGER PRIMARY KEY,
+        wager_amount INTEGER,
+        payout_amount INTEGER
+    );''')
+    conn.commit()
+    conn.close()
+    print("Table 'payout' created successfully.")
+
+def clear_wager_data():
+    conn = sqlite3.connect('game_database.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM payouts")
+    conn.commit()
+    conn.close()
+
+def delete_roll_data():
+    conn = sqlite3.connect('Main.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM roll_data")
+    conn.commit()
+    conn.close()
+
+#delete_roll_data()
+
+#clear_wager_data()
